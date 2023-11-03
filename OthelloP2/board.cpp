@@ -97,16 +97,126 @@ bool board::checkValidPlay(int rowSelection, int columnSelection, char colorPlay
             }
         }
 
-        /*                            Horizontal hacia derecha
+        /*                            Horizontal hacia la izquierda
+         * En este condicional se valida que no este en la primera columna del tablero
+        */
+        if(columnSelection-1>=0 && boardMatrix[rowSelection][columnSelection-1]==opponent){
+            for (int j = columnSelection-1; j >= 0; j--) {
+                if(boardMatrix[rowSelection][j]==colorPlayer){
+                    for (int i = columnSelection-1; i>j ; i--) {
+                        placeCard(rowSelection,i,colorPlayer);
+                    }
+                    break;
+                }
+            }
+        }
+
+        /*                            Horizontal hacia la izquierda
          * En este condicional se valida que no este en la ultima columna del tablero
         */
-        if(columnSelection)
+        if(columnSelection+1<rowBoard && boardMatrix[rowSelection][columnSelection+1]==opponent){
+            for (int j = columnSelection+1; j <rowBoard; j++) {
+                if(boardMatrix[rowSelection][j]==colorPlayer){
+                    for (int i = columnSelection+1; i<j ; i++) {
+                        placeCard(rowSelection,i,colorPlayer);
+                    }
+                    break;
+                }
+            }
+        }
 
 
+        /*                            Diagonal hacia la parte superior izquierda
+         * En este condicional se valida que no este en la esquina superior izquierda del tablero
+        */
+        if(rowSelection-1>=0 && columnSelection-1>=0 && boardMatrix[rowSelection-1][columnSelection-1]==opponent){
+            int i= rowSelection-1;
+            int j= columnSelection-1;
+
+            while (i>=0 && j>=0) {
+                if(boardMatrix[i][j]==colorPlayer){
+                    for (int x = rowSelection-1, y = columnSelection-1; x>i && y>j; x--,y--) {
+                        placeCard(x,y,colorPlayer);
+                    }
+                    break;
+                }
+                i--;
+                j--;
+            }
+        }
+
+        /*                            Diagonal hacia la parte inferior derecha
+         * En este condicional se valida que no este en la esquina inferior derecha del tablero
+        */
+
+        if(rowSelection+1<rowBoard && columnSelection+1<rowBoard && boardMatrix[rowSelection+1][columnSelection+1]==opponent){
+            int i= rowSelection+1;
+            int j= columnSelection+1;
+
+            while (i<rowBoard && j<rowBoard) {
+                if(boardMatrix[i][j]==colorPlayer){
+                    for (int x = rowSelection+1, y = columnSelection+1; x<i && y<j; x++,y++) {
+                        placeCard(x,y,colorPlayer);
+                    }
+                    break;
+                }
+                i++;
+                j++;
+            }
+        }
+
+        /*                            Diagonal hacia la parte superior derecha
+         * En este condicional se valida que no este en la esquina superior derecha del tablero
+        */
+        if(rowSelection-1>=0 && columnSelection+1<rowBoard && boardMatrix[rowSelection-1][columnSelection+1]==opponent){
+            int i= rowSelection-1;
+            int j= columnSelection+1;
+
+            while (i>=0 && j<rowBoard) {
+                if(boardMatrix[i][j]==colorPlayer){
+                    for (int x = rowSelection-1, y = columnSelection+1; x>i && y>j; x--,y++) {
+                        placeCard(x,y,colorPlayer);
+                    }
+                    break;
+                }
+                i--;
+                j++;
+            }
+        }
+
+        /*                            Diagonal hacia la parte inferior izquierda
+         * En este condicional se valida que no este en la esquina inferior izquiera del tablero
+        */
+        if(rowSelection+1<rowBoard && columnSelection-1>=0 && boardMatrix[rowSelection+1][columnSelection-1]==opponent){
+            int i= rowSelection+1;
+            int j= columnSelection-1;
+
+            while (i<rowBoard && j>=0) {
+                if(boardMatrix[i][j]==colorPlayer){
+                    for (int x = rowSelection+1, y = columnSelection-1; x>i && y>j; x++,y--) {
+                        placeCard(x,y,colorPlayer);
+                    }
+                    break;
+                }
+                i++;
+                j--;
+            }
+        }
+        return true;
     }else{
         return false;
     }
+}
 
+void board::saveGame(){
+
+    ofstream games("games.txt", ios::app);
+    string data;
+    if(!games.is_open()){
+        cerr << "No se pudo abrir el archivo, valide por favor."<<endl;
+    }else{
+        games<<data;
+    }
 }
 
 /*Referencias

@@ -9,12 +9,14 @@ class Player
 public:
     Player(string name, char color);
     ~Player();
+
     bool checkAvailableMoves(int row, int column, int color);
     void placeCard(int row, int column, int color);
     string getName();
     char getColor();
 
 private:
+
     string name;
     char color;
 
