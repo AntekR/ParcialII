@@ -1,17 +1,18 @@
 #ifndef BOARD_H
 #define BOARD_H
+
 #include <string>
 #include <iostream>
 #include <fstream>
 
 using namespace std;
 
-class board
+class Board
 {
 public:
     // Crear un tablero segun el tamaño ingresado
-    board(int row, int column);
-    ~board();
+    Board(int row, int column);
+    ~Board();
 
     // Permite poner una ficha segun la posición
     void placeCard(int row, int column, char color);
@@ -26,6 +27,7 @@ public:
     // Carga los datos anteriormente guardados.
     void loadGame();
 
+    int getRow();
 protected:
     char** boardMatrix;
     int rowBoard;

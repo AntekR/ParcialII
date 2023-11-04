@@ -1,6 +1,6 @@
 #include "board.h"
 
-board::board(int row, int column)
+Board::Board(int row, int column)
 {
     rowBoard = row;
     boardMatrix = new char*[row];
@@ -19,23 +19,23 @@ board::board(int row, int column)
                 boardMatrix[f][--c]='-';
                 boardMatrix[f][++c]='*';
             }else{
-                boardMatrix[f][c]='_';
+                boardMatrix[f][c]='.';
             }
         }
     }
 }
 
-board::~board(){
+Board::~Board(){
     for (int i = 0; i < rowBoard; ++i) {
         delete[] boardMatrix[i];
     }
 }
 
-void board::placeCard(int rowSelection, int columnSelection, char colorPlayer ){
+void Board::placeCard(int rowSelection, int columnSelection, char colorPlayer ){
     boardMatrix[rowSelection][columnSelection] = colorPlayer;
 }
 
-void board::showBoard(){
+void Board::showBoard(){
 
     for (int i = 0; i < rowBoard; ++i) {
         for (int j = 0; j < rowBoard; ++j) {
@@ -45,7 +45,7 @@ void board::showBoard(){
     }
 }
 
-bool board::checkValidPlay(int rowSelection, int columnSelection, char colorPlayer){
+bool Board::checkValidPlay(int rowSelection, int columnSelection, char colorPlayer){
 
     char opponent = (colorPlayer == '-') ? '+' : '-';
     // Validar si la posicion seleccionada esta dentro del tablero
@@ -97,7 +97,7 @@ bool board::checkValidPlay(int rowSelection, int columnSelection, char colorPlay
             }
         }
 
-        /*                            Horizontal hacia la izquierda
+        /*                            Horizontal hacia la derecha
          * En este condicional se valida que no este en la primera columna del tablero
         */
         if(columnSelection-1>=0 && boardMatrix[rowSelection][columnSelection-1]==opponent){
@@ -208,7 +208,7 @@ bool board::checkValidPlay(int rowSelection, int columnSelection, char colorPlay
     }
 }
 
-void board::saveGame(){
+void Board::saveGame(){
 
     ofstream games("games.txt", ios::app);
     string data;
@@ -217,6 +217,14 @@ void board::saveGame(){
     }else{
         games<<data;
     }
+}
+
+int Board::getRow(){
+    return rowBoard;
+}
+
+char** Board::getBoard(){
+    return boardMatrix;
 }
 
 /*Referencias
