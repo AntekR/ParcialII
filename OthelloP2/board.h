@@ -11,7 +11,7 @@ class Board
 {
 public:
     // Crear un tablero segun el tamaño ingresado
-    Board(int row, int column);
+    Board(int row);
     ~Board();
 
     // Permite poner una ficha segun la posición
@@ -20,6 +20,12 @@ public:
      * de encierro sandwich para que pueda poner la ficha
     */
     bool checkValidPlay(int row, int column, char color);
+
+    /*Valida si tiene movimientos disponibles*/
+    bool checkAvailableMoves(char colorPlayer);
+
+    //Valida si el tablero esta lleno
+    bool checkFullBoard();
     // Muestra el tablero del juego
     void showBoard();
     // Guarda los datos de la partida, nombres de jugadores y sus puntuaciones
@@ -28,6 +34,8 @@ public:
     void loadGame();
 
     int getRow();
+    char** getBoard();
+
 protected:
     char** boardMatrix;
     int rowBoard;

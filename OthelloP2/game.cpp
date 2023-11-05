@@ -4,8 +4,9 @@
 
 Game::Game(int row, string nick1, char color1, string nick2, char color2)
 {
+
     //Inicializa el tablero
-    boardMatrix = new Board(row,row);
+    board = new Board(row);
 
     //Crea los jugadores
     player1 = new Player(nick1, color1);
@@ -25,43 +26,54 @@ void Game::startGame(){
     //Se establece el estado del juego en proceso (en medio de este)
     status = Status::EN_JUEGO;
 
-    //Crea un bucle que funcionaria hasta que el estado cambia de EN_JUEGO es decir pase a FINALIZADO
-    while(status != Status::FINALIZADO){
+    turn = player1;
 
-        //Se llama al metodo makeMove para que el jugador actual haga su movimiento
-        makeMove();
-
-
-        //Y con este metodo se valida si el juego ya finalizo.
-        checkEnd();
-    }
+    board->showBoard();
 }
 
 void Game::makeMove(){
 
-    //Se muestra el tablero actual
-    boardMatrix->showBoard();
 
     //Solicitar al usuario posicion de su jugada
     int rowSelection, columnSelection;
-    cout << "Turno de " << turn->getName() << ".";
+    cout << "Turno de " << turn->getName() << "." << endl;
     cout << "Ingrese la fila: "; cin >> rowSelection;
     cout << "Ingrese la columna: "; cin >> columnSelection;
 
-    //Validar
-    if(!Player::checkAvailableMoves(boardMatrix,rowSelection,columnSelection,turn->getColor()){
+    /*Validar si tiene movimientos disponibles, es decir alguna posicion que le permita hacer un
+     * encierro, si no tiene ninguna el movimiento seria invalido
+    */
+    if(board->checkValidPlay(rowSelection,columnSelection,turn->getColor())==false){
 
-        cout << "Movimiento no valido" << endl;
+        cout << "Movimiento no valido, no hay encierros" << endl;
+        turn = (turn == player1) ? player2 : player1;
         // Este return permite que el codigo siguiente no se ejecute, es decir para el metodo en este punto
         return;
     }
+    // Valida los encierros, hace los cambios y pone la ficha en el lugar seleccionado
+    board->placeCard(rowSelection,columnSelection,turn->getColor());
+    //board->checkValidPlay(rowSelection-1,columnSelection-1,turn->getColor());
+    board->showBoard();
 
 
-
-    //Board::checkValidPlay()
+    // Cambio de turno
+    turn = (turn == player1) ? player2 : player1;
 
 }
 
-void Game::checkEnd(){
+Status Game::checkEnd(){
 
+    /* Se valida si el jugador o jugadores tienen movimientos disponibles
+    */
+    if(board->checkAvailableMoves(turn->getColor())==false){
+        turn =  (turn == player1) ? player2 : player1;
+        if(board->checkAvailableMoves(turn->getColor())==false){
+
+            return Status::FINALIZADO;
+        }else{
+            return Status::EN_JUEGO;
+        }
+    }else{
+        return Status::EN_JUEGO;
+    }
 }

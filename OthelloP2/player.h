@@ -12,7 +12,7 @@ public:
     Player(string name, char color);
     ~Player();
 
-    bool checkAvailableMoves(Board boardMatrix,int rowSelection, int columnSelection, char colorPlayer);
+    bool checkAvailableMoves(Board* boardMatrix,int rowSelection, int columnSelection, char colorPlayer);
     string getName();
     char getColor();
 

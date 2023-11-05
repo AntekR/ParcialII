@@ -1,44 +1,74 @@
 #include <iostream>
-#include <game.h>
-#include <board.h>
-#include <player.h>
+#include "game.h"
+#include "board.h"
 
 using namespace std;
 
+
 int main()
 {
-    int choice; string player1, player2; char playColor1, playColor2;
-    cout<<"\t\tOthello"<<endl;
 
-    cout<<"\t 1. Iniciar juego"<<endl;
-    cout<<"\t 2. Cargar registro de partidas"<<endl;
-    cout<<"\t Selecciona una opcion: ";
+    int choice;
+    string player1; string player2;
+    char color1;
+    char color2;
+    int row;
+    cout<<"\t\t\t\t Othello"<<endl;
+
+    cout<<"\t\t\t 1. Iniciar juego"<<endl;
+    cout<<"\t\t\t 2. Cargar registro de partidas"<<endl;
+    cout<<"\t\t\t Selecciona una opcion: ";
     cin>> choice;
 
     switch (choice) {
-    case 1:
-        cout<<"\t\tBienvenido Jugadores"<<endl;
-        cout<<"\t Antes de inicar el juego, ingresen su nombre y color con el cual van a jugar"<<endl;
-        cout<<"\t Recuerden que sus nombres no pueden ser iguales y solo hay dos colores: blanco (B) y negro (N)."<<endl;
+    case 1:{
+
+        cout<< endl << "\t\t\t\tBienvenido Jugadores"<<endl;
+        cout<<"\t   Antes de inicar el juego, ingresen su nombre y color con el cual van a jugar"<<endl;
+        cout<<"\t Recuerden que sus nombres no pueden ser iguales y solo hay dos colores: blanco (-) y negro (*)."<<endl;
+
+        cout<<"\t Ingrese el tamano del tablero: ";
+        cin >> row;
 
         cout<<"\t Jugador 1 "<<endl;
         cout<<"\t Nombre: ";
         cin>> player1;
         cout<<"\t Color: ";
-        cin>> playColor1;
+        cin>> color1;
 
         cout<<"\t Jugador 2 "<<endl;
         cout<<"\t Nombre: ";
         cin>> player2;
-        cout<<"\t Color: ";
-        cin>> playColor2;
+        color2 = (color1=='-') ? '*' : '-';
 
-        //while()
-        break;
-    case 2:
-        break;
-    default:
+        // Inicializacion de la variable
+
+        Game g(row,player1,color1,player2,color2);
+
+        //Tablero inicial
+        cout << "\t\t!Empezo el juego!" << endl << "\t\t Tablero inicial" << endl;
+        g.startGame();
+
+        while (g.checkEnd() == Status::EN_JUEGO) {
+            // Realizar un movimiento
+            g.makeMove();
+
+        }
+
+        if(g.checkEnd()==Status::FINALIZADO){
+            cout << "Resultado de la partida actual" << endl;
+
+        }
         break;
     }
+    case 2:
+        cout << "Imprimir partidas registradas" << endl;
+        break;
+    default:
+        //Opcion invalida
+        cout << "Opcion invalida" << endl;
+        break;
+    }
+
     return 0;
 }

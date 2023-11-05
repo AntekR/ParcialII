@@ -17,12 +17,12 @@ public:
 
     void startGame();
     void makeMove();
-    void checkEnd();
+    Status checkEnd();
     void saveGame();
     void loadGame();
 
 private:
-    Board *boardMatrix;
+    Board *board;
     Player *player1;
     Player *player2;
     Player *turn;
