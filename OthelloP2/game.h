@@ -4,6 +4,8 @@
 #include "board.h"
 #include "player.h"
 #include <string>
+#include <fstream>
+#include <chrono>
 
 using namespace std;
 
@@ -18,7 +20,9 @@ public:
     void startGame();
     void makeMove();
     Status checkEnd();
+    void calculateScore();
     void saveGame();
+    void printResults();
     void loadGame();
 
 private:
@@ -29,6 +33,7 @@ private:
 
 protected:
     Status status;
+
 };
 
 enum class Status{

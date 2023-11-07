@@ -1,6 +1,5 @@
 #include <iostream>
 #include "game.h"
-#include "board.h"
 
 using namespace std;
 
@@ -56,17 +55,23 @@ int main()
         }
 
         if(g.checkEnd()==Status::FINALIZADO){
+            g.saveGame();
             cout << "Resultado de la partida actual" << endl;
+            g.printResults();
 
         }
         break;
     }
-    case 2:
-        cout << "Imprimir partidas registradas" << endl;
+    case 2:{
+        Game g(row,player1,color1,player2,color2);
+        cout << "\t\tPartidas registradas" << endl;
+        g.loadGame();
         break;
+    }
     default:
         //Opcion invalida
-        cout << "Opcion invalida" << endl;
+        cout << "Opcion invalida, ingrese nuevamente su seleccion: ";
+        cin >> choice;
         break;
     }
 

@@ -17,6 +17,13 @@ string Player:: getName(){
     return name;
 }
 
+void Player::setScore(int scoreAct){
+    score = scoreAct;
+}
+
+int Player::getScore(){
+    return score;
+}
 
 bool Player::checkAvailableMoves(Board* boardMatrix, int rowSelection, int columnSelection, char colorPlayer){
     bool available = false;

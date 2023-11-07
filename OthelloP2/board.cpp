@@ -37,30 +37,30 @@ void Board::placeCard(int rowSelection, int columnSelection, char colorPlayer ){
 
     char opponent = (colorPlayer == '-') ? '*' : '-';
     // Validar si la posicion seleccionada esta dentro del tablero
-    if(rowSelection>=0 && rowSelection-1<=rowBoard-1 && columnSelection-1>=0 && columnSelection-1<rowBoard && boardMatrix[rowSelection-1][columnSelection-1]=='.'){
+    if(rowSelection>=0 && rowSelection<=rowBoard-1 && columnSelection>=0 && columnSelection<rowBoard && boardMatrix[rowSelection][columnSelection]=='.'){
         //                      Se valida encierros
 
-        /*                     Vertical hacia arriba
+        /*                            Vertical hacia arriba
          * En este condicional se valida que la posicion no este en la parte superior del tablero
          * y a la vez se valida si la ficha arriba de esa posicion es del oponente, si es asi
          * entonces ingresa a un for para buscar una ficha del jugador actual
+         *
+         *            Busca la posicion arriba que indico el usuario si la ficha es del oponente
         */
-        //                     Busca la posicion arriba que indico el usuario si la ficha es del oponente
-        if(rowSelection-1>0 && boardMatrix[rowSelection-2][columnSelection-1]==opponent){
+        if(rowSelection>=0 && boardMatrix[rowSelection-1][columnSelection]==opponent){
             /*Inicia un for para recorrer desde la ficha del oponente hacia arriba para buscar otra ficha de
             si mismo*/
-            for (int i = rowSelection-2; i >= 0; i--) {
+            for (int i = rowSelection-1; i >= 0; i--) {
                 /* En este condicional se verifica si la siguiente fichas desde la posicion del rival
                  * es una ficha del jugador actual para buscar el encierro
                 */
-                if(boardMatrix[i][columnSelection-1]==colorPlayer){
+                if(boardMatrix[i][columnSelection]==colorPlayer){
                     /* Si el condicional anterior se cumple entonces ingresa a un for que permite
                      * recorrer la fila desde la posicion de esa otra ficha del jugador que hace
                      * el encierro hacia abajo para cambiar las fichas del oponente.
                     */
-                    for (int j = rowSelection-1; j>i; j--) {
-                        //placeCard(i,columnSelection-1,colorPlayer);
-                        boardMatrix[j][columnSelection-1]=colorPlayer;
+                    for (int j = rowSelection; j>i; j--) {
+                        boardMatrix[j][columnSelection]=colorPlayer;
                     }
                     break;
                 }
@@ -71,18 +71,18 @@ void Board::placeCard(int rowSelection, int columnSelection, char colorPlayer ){
          * usamos el total de filas que hay en el tablero para poder hacer la validacion y verificar que
          * no sea la ultima fila del tablero
          */
-        if(rowSelection>=0 && rowSelection<rowBoard-1 && boardMatrix[rowSelection][columnSelection-1]==opponent){
-            for (int i = rowSelection-1; i <rowBoard-1; i++) {
+        if(rowSelection>=0 && rowSelection<rowBoard-1 && boardMatrix[rowSelection+1][columnSelection]==opponent){
+            for (int i = rowSelection; i <rowBoard-1; i++) {
                 /* En este condicional se busca si la siguiente fichas desde la posicion del rival
                  * es una ficha del jugador actual para buscar el encierro
                 */
-                if(boardMatrix[i][columnSelection-1]==colorPlayer){
+                if(boardMatrix[i][columnSelection]==colorPlayer){
                     /* Si el condicional anterior se cumple entonces ingresa a un for que permite
                      * recorrer la fila desde la posicion de esa otra ficha del jugador que hace
                      * el encierro hacia arriba para cambiar las fichas del oponente.
                     */
-                    for (int j = rowSelection-1; j<i; j++) {
-                        boardMatrix[j][columnSelection-1]=colorPlayer;
+                    for (int j = rowSelection; j<i; j++) {
+                        boardMatrix[j][columnSelection]=colorPlayer;
                     }
                     break;
                 }
@@ -91,12 +91,11 @@ void Board::placeCard(int rowSelection, int columnSelection, char colorPlayer ){
         /*                            Horizontal hacia la derecha
          * En este condicional se valida que no este en la primera columna del tablero
         */
-        if(columnSelection-1>=0 && columnSelection-1<rowBoard-1 && boardMatrix[rowSelection-1][columnSelection]==opponent){
+        if(columnSelection>=0 && columnSelection<rowBoard-1 && boardMatrix[rowSelection][columnSelection+1]==opponent){
             for (int j = columnSelection; j <= rowBoard-1; j++) {
-                if(boardMatrix[rowSelection-1][j]==colorPlayer){
-                    for (int i = columnSelection-1; i<j ; i++) {
-                        boardMatrix[rowSelection-1][i]=colorPlayer;
-                        //placeCard(rowSelection-1,i,colorPlayer);
+                if(boardMatrix[rowSelection][j]==colorPlayer){
+                    for (int i = columnSelection; i<j ; i++) {
+                        boardMatrix[rowSelection][i]=colorPlayer;
                     }
                     break;
                 }
@@ -106,12 +105,11 @@ void Board::placeCard(int rowSelection, int columnSelection, char colorPlayer ){
         /*                            Horizontal hacia la izquierda
          * En este condicional se valida que no este en la ultima columna del tablero
         */
-        if(columnSelection+1<rowBoard && boardMatrix[rowSelection-1][columnSelection-2]==opponent){
-            for (int j = columnSelection-1; j >=0 ; j--) {
-                if(boardMatrix[rowSelection-1][j]==colorPlayer){
-                    for (int i = columnSelection-1; i>j ; i--) {
-                        boardMatrix[rowSelection-1][i]=colorPlayer;
-                        //placeCard(rowSelection,i,colorPlayer);
+        if(columnSelection>=0 && columnSelection<=rowBoard-1 && boardMatrix[rowSelection][columnSelection-1]==opponent){
+            for (int j = columnSelection; j >=0 ; j--) {
+                if(boardMatrix[rowSelection][j]==colorPlayer){
+                    for (int i = columnSelection; i>j ; i--) {
+                        boardMatrix[rowSelection][i]=colorPlayer;
                     }
                     break;
                 }
@@ -122,13 +120,13 @@ void Board::placeCard(int rowSelection, int columnSelection, char colorPlayer ){
         /*                            Diagonal hacia la parte superior izquierda
          * En este condicional se valida que no este en la esquina superior izquierda del tablero
         */
-        if(rowSelection-1>=0 && columnSelection-1>=0 && boardMatrix[rowSelection-2][columnSelection-2]==opponent){
-            int i= rowSelection-2;
-            int j= columnSelection-2;
+        if(rowSelection>0 && columnSelection>0 && boardMatrix[rowSelection-1][columnSelection-1]==opponent){
+            int i= rowSelection-1;
+            int j= columnSelection-1;
 
-            while (i>=0 && j>=0) {
+            while (i>=0 && j>=0 && j<=rowBoard-1) {
                 if(boardMatrix[i][j]==colorPlayer){
-                    for (int x = rowSelection-1, y = columnSelection-1; x>i && y>j; x--,y--) {
+                    for (int x = rowSelection, y = columnSelection; x>i && y>j; x--,y--) {
                         boardMatrix[x][y]=colorPlayer;
                     }
                     break;
@@ -141,13 +139,13 @@ void Board::placeCard(int rowSelection, int columnSelection, char colorPlayer ){
         /*                            Diagonal hacia la parte superior derecha
          * En este condicional se valida que no este en la esquina superior derecha del tablero
         */
-        if(rowSelection>=0 && rowSelection-1<rowBoard-1 && columnSelection+1<rowBoard && boardMatrix[rowSelection-2][columnSelection]==opponent){
-            int i= rowSelection-2;
-            int j= columnSelection;
+        if(rowSelection<=rowBoard-1 && columnSelection<rowBoard-1 && boardMatrix[rowSelection-1][columnSelection+1]==opponent){
+            int i= rowSelection-1;
+            int j= columnSelection+1;
 
-            while (i>=0 && j<rowBoard) {
+            while (i>=0 && j<rowBoard-1) {
                 if(boardMatrix[i][j]==colorPlayer){
-                    for (int x = rowSelection-2, y = columnSelection-1; x>i && y>j; x--,y++) {
+                    for (int x = rowSelection, y = columnSelection; x>i && y<=j; x--,y++) {
                         boardMatrix[x][y]=colorPlayer;
                     }
                     break;
@@ -157,44 +155,43 @@ void Board::placeCard(int rowSelection, int columnSelection, char colorPlayer ){
             }
         }
 
-        /*                            Diagonal hacia la parte inferior derecha
-         * En este condicional se valida que no este en la esquina inferior derecha del tablero
-        */
-
-        if(rowSelection+1<rowBoard && columnSelection+1<rowBoard && boardMatrix[rowSelection+1][columnSelection+1]==opponent){
-            int i= rowSelection+1;
-            int j= columnSelection+1;
-
-            while (i<rowBoard && j<rowBoard) {
-                if(boardMatrix[i][j]==colorPlayer){
-                    for (int x = rowSelection-1, y = columnSelection-1; x<i && y<j; x++,y++) {
-                        placeCard(x,y,colorPlayer);
-                    }
-                    break;
-                }
-                i++;
-                j++;
-            }
-        }
-
-
-
         /*                            Diagonal hacia la parte inferior izquierda
-         * En este condicional se valida que no este en la esquina inferior izquiera del tablero
+         * En este condicional se valida que no este en la esquina inferior izquierda del tablero
         */
-        if(rowSelection+1<rowBoard && columnSelection-1>=0 && boardMatrix[rowSelection][columnSelection-2]==opponent){
-            int i= rowSelection;
-            int j= columnSelection-2;
 
-            while (i<rowBoard && j>=0) {
+        if(rowSelection<rowBoard-1 && columnSelection<=rowBoard-1 && boardMatrix[rowSelection+1][columnSelection-1]==opponent){
+            int i= rowSelection+1; //4+1=5
+            int j= columnSelection-1; //6-1=5
+
+            while (i<rowBoard && j<=rowBoard-1) {
                 if(boardMatrix[i][j]==colorPlayer){
-                    for (int x = rowSelection-1, y = columnSelection-1; x>i && y>j; x++,y--) {
+                    for (int x = rowSelection, y = columnSelection; x<i && y>j; x++,y--) {
                         boardMatrix[x][y]=colorPlayer;
                     }
                     break;
                 }
                 i++;
                 j--;
+            }
+        }
+
+
+
+        /*                            Diagonal hacia la parte inferior derecha
+         * En este condicional se valida que no este en la esquina inferior derecha del tablero
+        */
+        if(rowSelection<rowBoard-1 && columnSelection<rowBoard-1 && boardMatrix[rowSelection+1][columnSelection+1]==opponent){
+            int i= rowSelection+1;
+            int j= columnSelection+1;
+
+            while (i<rowBoard-1 && j<rowBoard-1 && boardMatrix[i][j]==opponent) {
+                i++;
+                j++;
+            }
+            if(boardMatrix[i][j]==colorPlayer){
+                for (int x = rowSelection, y = columnSelection; x<i && y<j; x++,y++) {
+                    boardMatrix[x][y]=colorPlayer;
+                }
             }
         }
     }else{
@@ -219,10 +216,10 @@ void Board::showBoard(){
 }
 
 bool Board::checkValidPlay(int rowSelection, int columnSelection, char colorPlayer){
-
+    bool valid = false;
     char opponent = (colorPlayer == '-') ? '*' : '-';
     // Validar si la posicion seleccionada esta dentro del tablero
-    if(rowSelection-1>=0 && rowSelection-1<rowBoard && columnSelection-1>=0 && columnSelection-1<rowBoard && boardMatrix[rowSelection-1][columnSelection-1]=='.'){
+    if(rowSelection>=0 && rowSelection<=rowBoard-1 && columnSelection>=0 && columnSelection<rowBoard && boardMatrix[rowSelection][columnSelection]=='.'){
         //                      Se valida encierros
 
         /*                     Vertical hacia arriba
@@ -231,15 +228,15 @@ bool Board::checkValidPlay(int rowSelection, int columnSelection, char colorPlay
          * entonces ingresa a un for para buscar una ficha del jugador actual
         */
         //                     Busca la posicion arriba que indico el usuario si la ficha es del oponente
-        if(rowSelection-1>0 && boardMatrix[rowSelection-2][columnSelection-1]==opponent){
+        if(rowSelection>=0 && boardMatrix[rowSelection-1][columnSelection]==opponent){
             /*Inicia un for para recorrer desde la ficha del oponente hacia arriba para buscar otra ficha de
             si mismo*/
-            for (int i = rowSelection-2; i >= 0; i--) {
+            for (int i = rowSelection-1; i >= 0; i--) {
                 /* En este condicional se verifica si la siguiente fichas desde la posicion del rival
                  * es una ficha del jugador actual para buscar el encierro
                 */
-                if(boardMatrix[i][columnSelection-1]==colorPlayer){
-                    return true;
+                if(boardMatrix[i][columnSelection]==colorPlayer){
+                    valid = true;
                     break;
                 }
             }
@@ -249,29 +246,17 @@ bool Board::checkValidPlay(int rowSelection, int columnSelection, char colorPlay
          * usamos el total de filas que hay en el tablero para poder hacer la validacion y verificar que
          * no sea la ultima fila del tablero
          */
-        if(rowSelection-1<rowBoard-1 && boardMatrix[rowSelection][columnSelection-1]==opponent){
-            for (int i = rowSelection; i <rowBoard-1; i++) {
+        if(rowSelection>=0 && rowSelection<rowBoard-1 && boardMatrix[rowSelection+1][columnSelection]==opponent){
+            for (int i = rowSelection+1; i <rowBoard-1; i++) {
                 /* En este condicional se busca si la siguiente fichas desde la posicion del rival
                  * es una ficha del jugador actual para buscar el encierro
                 */
-                if(boardMatrix[i][columnSelection-1]==colorPlayer){
+                if(boardMatrix[i][columnSelection]==colorPlayer){
                     /* Si el condicional anterior se cumple entonces ingresa a un for que permite
                      * recorrer la fila desde la posicion de esa otra ficha del jugador que hace
                      * el encierro hacia arriba para cambiar las fichas del oponente.
                     */
-                    return true;
-                    break;
-                }
-            }
-        }
-
-        /*                            Horizontal hacia la izquierda
-         * En este condicional se valida que no este en la primera columna del tablero
-        */
-        if(columnSelection-1>0 && columnSelection-1<=rowBoard-1 && boardMatrix[rowSelection-1][columnSelection-2]==opponent){
-            for (int j = columnSelection-2; j >= 0; j--) {
-                if(boardMatrix[rowSelection-1][j]==colorPlayer){
-                    return true;
+                    valid = true;
                     break;
                 }
             }
@@ -280,28 +265,37 @@ bool Board::checkValidPlay(int rowSelection, int columnSelection, char colorPlay
         /*                            Horizontal hacia la derecha
          * En este condicional se valida que no este en la ultima columna del tablero
         */
-        if(columnSelection-1>=0 && columnSelection-1<rowBoard-1 && boardMatrix[rowSelection-1][columnSelection]==opponent){
+        if(columnSelection>=0 && columnSelection<rowBoard-1 && boardMatrix[rowSelection][columnSelection+1]==opponent){
             for (int j = columnSelection+1; j <rowBoard; j++) {
-                if(boardMatrix[rowSelection-1][j]==colorPlayer){
-                    return true;
+                if(boardMatrix[rowSelection][j]==colorPlayer){
+                    valid = true;
                     break;
                 }
             }
         }
 
-
-
+        /*                            Horizontal hacia la izquierda
+         * En este condicional se valida que no este en la primera columna del tablero
+        */
+        if(columnSelection>=0 && columnSelection<=rowBoard-1 && boardMatrix[rowSelection][columnSelection-1]==opponent){
+            for (int j = columnSelection-1; j >= 0; j--) {
+                if(boardMatrix[rowSelection][j]==colorPlayer){
+                    valid = true;
+                    break;
+                }
+            }
+        }
 
         /*                            Diagonal hacia la parte superior izquierda
          * En este condicional se valida que no este en la esquina superior izquierda del tablero
         */
-        if(rowSelection-1>=0 && columnSelection-1>=0 && boardMatrix[rowSelection-2][columnSelection-2]==opponent){
-            int i= rowSelection-2;
-            int j= columnSelection-2;
+        if(rowSelection>0 && columnSelection>0 && boardMatrix[rowSelection-1][columnSelection-1]==opponent){
+            int i= rowSelection-1;
+            int j= columnSelection-1;
 
-            while (i>=0 && j>=0) {
+            while (i>=0 && j>=0 && j<=rowBoard-1) {
                 if(boardMatrix[i][j]==colorPlayer){
-                    return true;
+                    valid = true;
                     break;
                 }
                 i--;
@@ -312,13 +306,13 @@ bool Board::checkValidPlay(int rowSelection, int columnSelection, char colorPlay
         /*                            Diagonal hacia la parte superior derecha
          * En este condicional se valida que no este en la esquina superior derecha del tablero
         */
-        if(rowSelection-1>=0 && columnSelection<rowBoard && boardMatrix[rowSelection-2][columnSelection]==opponent){
+        if(rowSelection<=rowBoard-1 && columnSelection<rowBoard-1 && boardMatrix[rowSelection-1][columnSelection+1]==opponent){
             int i= rowSelection-1;
             int j= columnSelection+1;
 
-            while (i>=0 && j<rowBoard) {
+            while (i>=0 && i<rowBoard-1 && j<rowBoard-1) {
                 if(boardMatrix[i][j]==colorPlayer){
-                    return true;
+                    valid = true;
                     break;
                 }
                 i--;
@@ -326,17 +320,34 @@ bool Board::checkValidPlay(int rowSelection, int columnSelection, char colorPlay
             }
         }
 
+        /*                            Diagonal hacia la parte inferior izquierda
+         * En este condicional se valida que no este en la esquina inferior izquiera del tablero
+        */
+        if(rowSelection<rowBoard-1 && columnSelection<=rowBoard-1 && boardMatrix[rowSelection+1][columnSelection-1]==opponent){
+            int i= rowSelection+1;
+            int j= columnSelection-1;
+
+            while (i<rowBoard-1 && j>=0) {
+                if(boardMatrix[i][j]==colorPlayer){
+                    valid = true;
+                    break;
+                }
+                i++;
+                j--;
+            }
+        }
+
         /*                            Diagonal hacia la parte inferior derecha
          * En este condicional se valida que no este en la esquina inferior derecha del tablero
         */
 
-        if(rowSelection+1<rowBoard && columnSelection+1<rowBoard && boardMatrix[rowSelection+1][columnSelection+1]==opponent){
-            int i= rowSelection;
-            int j= columnSelection;
+        if(rowSelection<rowBoard-1 && columnSelection<rowBoard-1 && boardMatrix[rowSelection+1][columnSelection+1]==opponent){
+            int i= rowSelection+1;
+            int j= columnSelection+1;
 
             while (i<rowBoard && j<rowBoard) {
                 if(boardMatrix[i][j]==colorPlayer){
-                    return true;
+                    valid = true;
                     break;
                 }
                 i++;
@@ -344,31 +355,15 @@ bool Board::checkValidPlay(int rowSelection, int columnSelection, char colorPlay
             }
         }
 
-
-
-        /*                            Diagonal hacia la parte inferior izquierda
-         * En este condicional se valida que no este en la esquina inferior izquiera del tablero
-        */
-        if(rowSelection+1<rowBoard && columnSelection-1>=0 && boardMatrix[rowSelection][columnSelection-2]==opponent){
-            int i= rowSelection+1;
-            int j= columnSelection-1;
-
-            while (i<rowBoard && j>=0) {
-                if(boardMatrix[i][j]==colorPlayer){
-                    return true;
-                    break;
-                }
-                i++;
-                j--;
-            }
-        }
     }
-    return false;
+
+    if(valid==false) cout <<"\t\t Posicion invalida, no hay encierros" << endl;
+    return valid;
 
 }
 
-bool Board::checkAvailableMoves(char colorPlayer){
-    bool available = false;
+int Board::checkAvailableMoves(char colorPlayer){
+    int availablesMoves = 0;
     char opponent = (colorPlayer == '-') ? '*' : '-';
 
     // Recorre todo el tablero
@@ -379,29 +374,44 @@ bool Board::checkAvailableMoves(char colorPlayer){
 
             if(boardMatrix[row][column]==colorPlayer){
                 /*
-                 Valida si hay encierro de manera vertical hacia arriba
-                 Pendiente validar la comparacion a 0.
+                 Valida si hay ficha oponente arriba del jugador para un posible encierro
                 */
                 if(row>0 && boardMatrix[row-1][column]==opponent){
-                    available = true;
+                    availablesMoves++;
                 }
-                // Valida si hay encierro de manera vertical hacia abajo
+                // Valida si hay ficha oponente abajo del jugador para un posible encierro
                 if(row<rowBoard-1 && boardMatrix[row+1][column]==opponent){
-                    available = true;
+                    availablesMoves++;
                 }
-                //Valida si hay encierro de manera horizontal hacia la derecha
-                if(column<rowBoard && boardMatrix[row][column+1]==opponent){
-                    available = true;
+                //Valida si hay ficha oponente de manera horizontal izq del jugador para un posible encierro
+                if(column<rowBoard && boardMatrix[row][column-1]==opponent){
+                    availablesMoves++;
                 }
-                //Valida si hay encierro de manera horizontal hacia la izquierda
-                if(column>0 && boardMatrix[row][column-1]==opponent){
-                    available = true;
+                //Valida si hay ficha oponente de manera horizontal der del jugador para un posible encierro
+                if(column>0 && boardMatrix[row][column+1]==opponent){
+                    availablesMoves++;
+                }
+                //Valida si es posible encierro de manera diagonal hacia la parte superior izq
+                if(row>=0 && column>=0 && boardMatrix[row-1][column-1]==opponent){
+                    availablesMoves++;
+                }
+                //Valida si es posible encierro de manera diagonal hacia la parte superior der
+                if(row>=0 && column>=0 && boardMatrix[row-1][column+1]==opponent){
+                    availablesMoves++;
+                }
+                //Valida si es posible encierro de manera diagonal hacia la parte inferior izq
+                if(row>=0 && column>=0 && row+1<rowBoard && column+1<rowBoard && boardMatrix[row+1][column-1]==opponent){
+                    availablesMoves++;
+                }
+                //Valida si es posible encierro de manera diagonal hacia la parte inferior derecha
+                if(row>=0 && column>=0 && row+1<rowBoard && column+1<rowBoard && boardMatrix[row+1][column+1]==opponent){
+                    availablesMoves++;
                 }
             }
         }
     }
 
-    return available;
+    return availablesMoves;
 }
 
 bool Board::checkFullBoard(){
@@ -415,6 +425,8 @@ bool Board::checkFullBoard(){
 
     return true;
 }
+
+
 
 void Board::saveGame(){
 

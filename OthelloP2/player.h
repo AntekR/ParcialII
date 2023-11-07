@@ -15,6 +15,8 @@ public:
     bool checkAvailableMoves(Board* boardMatrix,int rowSelection, int columnSelection, char colorPlayer);
     string getName();
     char getColor();
+    void setScore(int scoreAct);
+    int getScore();
 
 private:
 

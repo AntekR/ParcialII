@@ -22,10 +22,13 @@ public:
     bool checkValidPlay(int row, int column, char color);
 
     /*Valida si tiene movimientos disponibles*/
-    bool checkAvailableMoves(char colorPlayer);
+    int checkAvailableMoves(char colorPlayer);
 
     //Valida si el tablero esta lleno
     bool checkFullBoard();
+
+    //Obtener puntuacion
+
     // Muestra el tablero del juego
     void showBoard();
     // Guarda los datos de la partida, nombres de jugadores y sus puntuaciones

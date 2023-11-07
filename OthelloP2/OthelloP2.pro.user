@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 11.0.3, 2023-11-05T11:18:43. -->
+<!-- Written by QtCreator 11.0.3, 2023-11-06T20:30:47. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -99,8 +99,8 @@
    <value type="qlonglong" key="ProjectExplorer.Target.ActiveRunConfiguration">0</value>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.BuildConfiguration.0">
     <value type="int" key="EnableQmlDebugging">0</value>
-    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">C:\Users\Angie\OneDrive - Universidad de Antioquia\Semestre 2\Informatica II\build-OthelloP2-Desktop_Qt_6_5_2_MinGW_64_bit-Debug</value>
-    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory.shadowDir">C:/Users/Angie/OneDrive - Universidad de Antioquia/Semestre 2/Informatica II/build-OthelloP2-Desktop_Qt_6_5_2_MinGW_64_bit-Debug</value>
+    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">C:\Users\Angie\OneDrive - Universidad de Antioquia\Semestre 2\Informatica II\ParcialII\build-OthelloP2-Desktop_Qt_6_5_2_MinGW_64_bit-Debug</value>
+    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory.shadowDir">C:/Users/Angie/OneDrive - Universidad de Antioquia/Semestre 2/Informatica II/ParcialII/build-OthelloP2-Desktop_Qt_6_5_2_MinGW_64_bit-Debug</value>
     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
       <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
