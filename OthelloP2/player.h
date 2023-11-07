@@ -1,7 +1,6 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 #include <string>
-#include "board.h"
 
 using namespace std;
 
@@ -12,7 +11,6 @@ public:
     Player(string name, char color);
     ~Player();
 
-    bool checkAvailableMoves(Board* boardMatrix,int rowSelection, int columnSelection, char colorPlayer);
     string getName();
     char getColor();
     void setScore(int scoreAct);

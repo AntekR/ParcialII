@@ -426,8 +426,6 @@ bool Board::checkFullBoard(){
     return true;
 }
 
-
-
 void Board::saveGame(){
 
     ofstream games("games.txt", ios::app);

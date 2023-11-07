@@ -51,7 +51,6 @@ int main()
         while (g.checkEnd() == Status::EN_JUEGO) {
             // Realizar un movimiento
             g.makeMove();
-
         }
 
         if(g.checkEnd()==Status::FINALIZADO){
@@ -70,8 +69,7 @@ int main()
     }
     default:
         //Opcion invalida
-        cout << "Opcion invalida, ingrese nuevamente su seleccion: ";
-        cin >> choice;
+        cout << "Opcion invalida" << endl;
         break;
     }
 

@@ -36,16 +36,16 @@ void Game::makeMove(){
 
     do {
         //Solicitar al usuario posicion de su jugada
-        cout << "Turno de " << turn->getName() << "." << endl;
-        cout << "Ingrese la fila: "; cin >> rowSelection;
-        cout << "Ingrese la columna: "; cin >> columnSelection;
+        cout << "\t\tTurno de " << turn->getName() << "." << endl;
+        cout << "\t\tIngrese la fila: "; cin >> rowSelection;
+        cout << "\t\tIngrese la columna: "; cin >> columnSelection;
 
         /*Validar si tiene movimientos disponibles, es decir alguna posicion que le permita hacer un
         * encierro, si no tiene ninguna el movimiento seria invalido
         */
         if(board->checkAvailableMoves(turn->getColor())==0){
 
-            cout << "Movimiento no valido, no hay encierros" << endl;
+            cout << "\t\tMovimiento no valido, no hay encierros" << endl;
             turn = (turn == player1) ? player2 : player1;
             // Este return permite que el codigo siguiente no se ejecute, es decir para el metodo en este punto
             return;
@@ -56,8 +56,8 @@ void Game::makeMove(){
     // Valida los encierros, hace los cambios y pone la ficha en el lugar seleccionado
     board->placeCard(rowSelection-1,columnSelection-1,turn->getColor());
     calculateScore();
-    cout << "\t\t\t Puntaje de Jugadores" << endl;
-    cout <<"\t\t   "<<player1->getName() <<" " <<player1->getScore()<< "\t\t " <<player2->getName() <<" " <<player2->getScore() << endl;
+    cout << endl << "\t\tPuntaje de Jugadores" << endl;
+    cout <<"\t\t"<<player1->getName() <<" " <<player1->getScore()<< "\t  " <<player2->getName() <<" " <<player2->getScore() << endl;
     board->showBoard();
 
 
@@ -79,7 +79,7 @@ Status Game::checkEnd(){
             return Status::EN_JUEGO;
         }
     }else if(board->checkFullBoard()==true){
-        cout << "Tablero lleno" << endl;
+        cout << "\t\tTablero lleno" << endl;
         return Status::FINALIZADO;
     }else{
         return Status::EN_JUEGO;
@@ -110,7 +110,7 @@ void Game::calculateScore(){
 void Game::saveGame(){
     ofstream partidas("partidas.txt",ios::app);
     if(!partidas.is_open()){
-        cerr << "No se pudo abrir el archivo" << endl;
+        cerr << "\t\tNo se pudo abrir el archivo" << endl;
     }
 
     auto now = chrono::system_clock::now();
@@ -125,18 +125,18 @@ void Game::saveGame(){
 }
 
 void Game::printResults(){
-    cout << "Jugador 1 (" <<player1->getName()<<") finalizo con un puntaje de: "<< player1->getScore()<< " fichas en total."<<endl;
-    cout << "Jugador 2 (" <<player2->getName()<<") finalizo con un puntaje de: "<< player2->getScore()<< " fichas en total."<<endl;
+    cout << "\t\tJugador 1 (" <<player1->getName()<<") finalizo con un puntaje de: "<< player1->getScore()<< " fichas en total."<<endl;
+    cout << "\t\tJugador 2 (" <<player2->getName()<<") finalizo con un puntaje de: "<< player2->getScore()<< " fichas en total."<<endl;
     int scoreW = ((player1->getScore() > player2->getScore()) ? player1->getScore() : player2->getScore());
-    cout << "Ganador: " << ((scoreW==player1->getScore()) ? player1->getName() : player2->getName()) << endl;
-    cout << "Puntaje ganador: "<<to_string(scoreW)<<endl;
+    cout << "\t\tGanador: " << ((scoreW==player1->getScore()) ? player1->getName() : player2->getName()) << endl;
+    cout << "\t\tPuntaje ganador: "<<to_string(scoreW)<<endl;
 }
 
 void Game::loadGame(){
     ifstream partidas("partidas.txt");
 
     if(!partidas.is_open()){
-        cerr << "No se puedo abrir el archivo" << endl;
+        cerr << "\t\tNo se puedo abrir el archivo" << endl;
         return;
     }
     string line;
